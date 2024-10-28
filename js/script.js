@@ -40,17 +40,6 @@ async function createFasterImageBlocks(){
     }
     enlarge();
 }
-async function createImageBlock(){
-    for(let image of images){
-        const li = document.createElement("li");
-        let imgDiv = createDivElement();
-        let img = await createImageElement(image);
-        li.appendChild(imgDiv);
-        imgDiv.appendChild(img);
-        list.appendChild(li);
-    }
-    enlarge();
-}
 function shuffleArray(){
     let divArray = [1,2,3,4,5,6,7,8,9,10];
     const shuffledArray = divArray.sort(() => Math.random() - 0.5);
