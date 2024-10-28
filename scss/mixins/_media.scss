@@ -1,0 +1,12 @@
+@mixin smallscreen{
+    @media(max-width:1400px){
+        justify-content: center;
+        padding-left: 0px;
+    }
+}
+@mixin smallscreen-width{
+    @media(max-width:1400px){
+        width:350px;
+        height:250px;
+    }
+}
