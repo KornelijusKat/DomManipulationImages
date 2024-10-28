@@ -25,7 +25,22 @@ function createDivElement(){
         imgDiv.className = "col-sm-12 col-md-3 col-xl-1";
         return imgDiv;
 }
-async function createDiv(){
+async function createFasterImageBlocks(){
+    const imagePromises = images.map(async (image) => {
+        const li = document.createElement("li");
+        const imgDiv = createDivElement();
+        const img = await createImageElement(image);  
+        li.appendChild(imgDiv);
+        imgDiv.appendChild(img);
+        return li;  
+    });
+    const listItems = await Promise.all(imagePromises);  
+    for(li of listItems){
+        list.appendChild(li);
+    }
+    enlarge();
+}
+async function createImageBlock(){
     for(let image of images){
         const li = document.createElement("li");
         let imgDiv = createDivElement();
@@ -34,7 +49,7 @@ async function createDiv(){
         imgDiv.appendChild(img);
         list.appendChild(li);
     }
-    await enlarge();
+    enlarge();
 }
 function shuffleArray(){
     let divArray = [1,2,3,4,5,6,7,8,9,10];
@@ -49,23 +64,20 @@ function mixDivs(array){
         index++; 
     }
 }
-document.querySelector('.row .rodyti').addEventListener('click',(e)=>{
+document.querySelector('.row .rodyti').addEventListener('click',async (e)=>{
     list.innerHTML="";
-    createDiv();
+    await  createFasterImageBlocks();
     e.target.style.display = "none";
     document.querySelector('.row .maisyti').style.display = "unset";
 })
 document.querySelector('.row .maisyti').addEventListener('click',(e)=>{
     mixDivs(shuffleArray());
 })
-async function enlarge(){
+function enlarge(){
     for(let img of document.querySelectorAll('img')){
-        img.addEventListener('click', (e) => {
+        img.addEventListener('dblclick', (e) => {
             e.currentTarget.style.transform = `scale(2)`;
             e.preventDefault();
         });
     }
 }
-document.querySelector("div").addEventListener('click',(e)=>{
-    enlarge();
-})
